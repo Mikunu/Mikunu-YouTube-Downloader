@@ -1,0 +1,5 @@
+pytube==11.0.1
+pytube3==9.6.4
+six==1.16.0
+transliterate==1.10.2
+typing_extensions==4.0.0
