@@ -1,7 +1,10 @@
 from pytube import YouTube, Channel, request
 from os import mkdir, path, startfile
 from transliterate import translit
+from sys import argv
+from re import match
 
+url_regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
 
 def open_explorer(dirPath):
     dirPath = path.realpath(dirPath)
@@ -48,12 +51,16 @@ def download_channel(channel, dirPath=None):
         iteration += 1
 
 
-def main():
-    channel = Channel('https://www.youtube.com/channel/UCYx6EY5B3EDGLcIm8xPqvJw')
-    dirPath = r'E:\YouTube Downloader'
+def main(url):
+    channel = Channel(url)
+    dirPath = r'D:\YouTube Downloader'
     download_channel(channel, dirPath)
     open_explorer(dirPath)
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        if match(url_regex, argv[1]):
+            main(argv[1])
+    except Exception:
+        print("ERROR!!!")
