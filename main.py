@@ -15,13 +15,18 @@ def create_dir(dirPath):
     else:
         print("Directory ", dirPath, " already exists")
 
+    return True
+
 
 def download_info(channel):
-    to_download: int = len(channel)
-    total_size: int = 0
+    channel_info = {'to_download': len(channel), 'total_size': 0}
     for video in channel:
-        total_size += request.filesize(video)
-    print(f'{to_download} videos to download. Total size {total_size/1024} megabytes.')
+        video_size = channel_info.get('total_size') + request.filesize(video)
+        channel_info.update({'total_size': video_size})
+    print(f'{channel_info.get("to_download")} videos to download. '
+          f'Total size {channel_info.get("total_size") / 1024} megabytes.')
+
+    return channel_info
 
 
 def download_video(stream, dirPath=None):
@@ -29,6 +34,8 @@ def download_video(stream, dirPath=None):
         stream.download()
     else:
         stream.download(dirPath)
+
+    return True
 
 
 def download_channel(channel, dirPath=None):
@@ -46,6 +53,20 @@ def download_channel(channel, dirPath=None):
         download_video(stream, dirPath)
         print(f'{video.title} downloaded')
         iteration += 1
+
+    return True
+
+
+def multiple_channels_download(urls, dirPath=None):
+    total_channels = len(urls)
+    iteration = 1
+    for url in urls:
+        channel = Channel(url)
+        print(f'[{iteration}/{total_channels}] {channel.channel_name} is downloading...')
+        download_channel(channel, dirPath)
+        iteration += 1
+
+    return True
 
 
 def main():
