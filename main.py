@@ -1,6 +1,11 @@
 from pytube import YouTube, Channel, request
-from os import mkdir, path
+from os import mkdir, path, startfile
 from transliterate import translit
+
+
+def open_explorer(dirPath):
+    dirPath = path.realpath(dirPath)
+    startfile(dirPath)
 
 
 def create_dir(dirPath):
@@ -44,9 +49,10 @@ def download_channel(channel, dirPath=None):
 
 
 def main():
-    channel = Channel('https://www.youtube.com/channel/UCse94379EWfi78PC2w6297w')
+    channel = Channel('https://www.youtube.com/channel/UCYx6EY5B3EDGLcIm8xPqvJw')
     dirPath = r'E:\YouTube Downloader'
     download_channel(channel, dirPath)
+    open_explorer(dirPath)
 
 
 if __name__ == '__main__':
